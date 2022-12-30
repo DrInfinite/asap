@@ -1,0 +1,188 @@
+import { deployedFactoryAddress, provider } from '../provider';
+import ASAP from '../../src/ASAP';
+import { CompanyEntityTypeEnum } from '../../src/enums';
+import Web3 from 'web3';
+import { CERTIFICATE_ASSIGNMENT_TYPE } from '../../src/Material';
+
+describe('certificate', () => {
+  let asap: ASAP;
+  let asapCA: ASAP;
+  let account: string;
+  let caAccount: string;
+  let certificateCode1: number;
+  let certificateCode2: number;
+  let certificateCode3: number;
+  let materialTokenId1: number;
+  let certificateEvents: any = {};
+  beforeAll(async () => {
+    const factoryContractAddress = await deployedFactoryAddress();
+    // @ts-ignore
+    [account, caAccount] = await new Web3(
+      // @ts-ignore
+      provider
+    ).eth.getAccounts();
+    asap = await ASAP.providerInit({
+      web3Provider: provider,
+      factoryContractAddress,
+      fromAddress: account,
+    });
+    asapCA = await ASAP.providerInit({
+      web3Provider: provider,
+      factoryContractAddress,
+      fromAddress: caAccount,
+    });
+    await asap.company
+      .create({
+        name: 'company',
+        entityType: CompanyEntityTypeEnum.MANUFACTURER,
+      })
+      .send();
+    await asapCA.certificateAuthority
+      .createCertificateAuthority({
+        name: 'company',
+      })
+      .send();
+    // ====
+    // create a certificate: 1
+    const createResult1 = await asapCA.certificateAuthority
+      .createCertificate({
+        name: 'name',
+        description: 'description',
+        type: 2,
+      })
+      .send();
+    certificateCode1 =
+      createResult1.events.CertificateAuthorityCertificateCreated.code;
+    // create a certificate: 2
+    const createResult2 = await asapCA.certificateAuthority
+      .createCertificate({
+        name: 'name',
+        description: 'description',
+        type: 2,
+      })
+      .send();
+
+    certificateCode2 =
+      createResult2.events.CertificateAuthorityCertificateCreated.code;
+    const createResult3 = await asapCA.certificateAuthority
+      .createCertificate({
+        name: 'name',
+        description: 'description',
+        type: 2,
+      })
+      .send();
+
+    certificateCode3 =
+      createResult3.events.CertificateAuthorityCertificateCreated.code;
+    certificateEvents[certificateCode1] = [];
+    certificateEvents[certificateCode2] = [];
+    // create a material
+    const materialCreateResult1 = await asap.material
+      .create({
+        name: 'product',
+        code: '123',
+        amountIdentifier: 'kg',
+      })
+      .send();
+    materialTokenId1 =
+      materialCreateResult1.events.MaterialCreate.materialTokenId;
+    // temporary methods for easier visibility
+    const assignCertificate = async (
+      certificateCode: number,
+      materialTokenId: number
+    ) =>
+      certificateEvents[certificateCode].push({
+        type: CERTIFICATE_ASSIGNMENT_TYPE.CREATE,
+        event: (
+          await asapCA.material
+            .assignCertificate({
+              certificateCode,
+              materialTokenId,
+              stake: Web3.utils.toWei('1', 'ether'),
+            })
+            .send()
+        ).events.MaterialAssignedCertificate,
+      });
+
+    const revokeCertificate = async (
+      certificateCode: number,
+      materialTokenId: number
+    ) =>
+      certificateEvents[certificateCode].push({
+        type: CERTIFICATE_ASSIGNMENT_TYPE.REVOKE,
+        event: (
+          await asap.material
+            .revokeCertificate({
+              certificateCode,
+              materialTokenId,
+            })
+            .send()
+        ).events.MaterialRevokedCertificate,
+      });
+    const cancelCertificate = async (
+      certificateCode: number,
+      materialTokenId: number
+    ) =>
+      certificateEvents[certificateCode].push({
+        type: CERTIFICATE_ASSIGNMENT_TYPE.CANCEL,
+        event: (
+          await asapCA.material
+            .cancelCertificate({
+              certificateCode,
+              materialTokenId,
+            })
+            .send()
+        ).events.MaterialCanceledCertificate,
+      });
+    await assignCertificate(certificateCode1, materialTokenId1);
+    await revokeCertificate(certificateCode1, materialTokenId1);
+    await assignCertificate(certificateCode1, materialTokenId1);
+    await cancelCertificate(certificateCode1, materialTokenId1);
+    await assignCertificate(certificateCode1, materialTokenId1);
+
+    await assignCertificate(certificateCode2, materialTokenId1);
+    await cancelCertificate(certificateCode2, materialTokenId1);
+  });
+  describe('assignmentHistory', () => {
+    it('returns an object with all assign, cancel and revoke event in chronological order', async () => {
+      const assignedMaterialsHistory = await asap.material.certificateAssignmentHistory(
+        { materialTokenId: materialTokenId1 }
+      );
+      expect(Object.keys(assignedMaterialsHistory)).toEqual(
+        Object.keys(certificateEvents)
+      );
+      // expect(assignedMaterialsHistory[0].materialTokenId).toEqual(materialTokenId1);
+    });
+    it('filters the history by materialTokenId and certificateCode', async () => {
+      const assignedMaterialsHistory = await asap.material.certificateAssignmentHistory(
+        { materialTokenId: materialTokenId1, certificateCode: certificateCode2 }
+      );
+      expect(Object.keys(assignedMaterialsHistory)).toEqual([certificateCode2]);
+    });
+    it('returns [] if there is not any history', async () => {
+      const assignedMaterialsHistory = await asap.material.certificateAssignmentHistory(
+        {
+          materialTokenId: materialTokenId1,
+          certificateCode: 99,
+        }
+      );
+      expect(assignedMaterialsHistory).toEqual({});
+    });
+  });
+  describe('getFromCertificate', () => {
+    it('returns the assigned materials from a certificate', async () => {
+      const assignedMaterials = await asap.material.getFromCertificate(
+        certificateCode1
+      );
+      expect(assignedMaterials[0].assignEvent.materialTokenId).toEqual(
+        materialTokenId1
+      );
+    });
+    it('returns [] if there are no assigned materials to a certificate', async () => {
+      const assignedMaterials = await asap.material.getFromCertificate(
+        certificateCode3
+      );
+      expect(assignedMaterials).toEqual([]);
+    });
+  });
+});

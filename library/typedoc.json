@@ -1,0 +1,6 @@
+{
+  "entryPoints": ["src/index.ts"],
+  "out": "docs",
+  "name": "ASAP library documentation",
+  "readme": "./README.md"
+}

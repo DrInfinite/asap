@@ -1,0 +1,21 @@
+sudo: required
+language: node_js
+node_js:
+  - '10.19.0'
+cache:
+  directories:
+    - node_modules
+# before_install: cd truffle
+
+install:
+  - cd library
+  - npm install
+  - cd ../truffle
+  - npm install
+script:
+  - ./node_modules/.bin/ganache-cli --gasLimit 0x7A1200 &
+  - sleep 5
+  - ./node_modules/.bin/truffle test
+  - cd ../library
+  - npm run test
+after_script:

@@ -1,0 +1,73 @@
+import styled, { css } from 'styled-components';
+import ASAPLogo from '@assets/svg/asap-logo-full-light.svg';
+
+export const FooterContainer = styled.section`
+  background-color: ${({ theme }) => theme.colors.background};
+  padding: ${({ theme }) => theme.sizing.scale3200} 0
+    ${({ theme }) => theme.sizing.scale800} 0;
+  position: relative;
+  margin-bottom: -1px;
+  &:before {
+    content: ' ';
+    position: absolute;
+    top: 60px;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 10px;
+    height: 10px;
+    background: ${({ theme }) => theme.colors.white};
+    border-radius: 10px;
+  }
+`;
+export const FooterLogo = styled(ASAPLogo)`
+  width: 100%;
+  height: 30px;
+  margin-bottom: ${({ theme }) => theme.sizing.scale500};
+`;
+export const ContactTitle = styled.section``;
+export const ContactSubtitle = styled.section``;
+export const FooterInfoSummary = styled.p``;
+export const FooterBottom = styled.div`
+  padding: ${({ theme }) => theme.sizing.scale1600} 0
+    ${({ theme }) => theme.sizing.scale400};
+  text-align: center;
+`;
+export const FooterLinksHeader = styled.li`
+  font-weight: 800;
+  padding-bottom: ${({ theme }) => theme.sizing.scale600};
+
+  font-size: 1.3rem;
+`;
+export const FooterLinksItem = styled.li``;
+export const FooterLinksItemLink = styled.a`
+  text-decoration: none;
+  display: inline-block;
+  text-transform: uppercase;
+  color: ${({ theme }) => theme.colors.white};
+  padding: ${({ theme }) => theme.sizing.scale300} 0;
+  &:hover {
+    color: ${({ theme }) => theme.colors.gray['100']};
+  }
+`;
+export const FooterLinks = styled.ul`
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+`;
+export const FooterSocialLabel = styled.div`
+  font-size: 0.9rem;
+  margin-bottom: ${({ theme }) => theme.sizing.scale600};
+`;
+export const FooterSocialLinks = styled.div``;
+export const FooterSocialLink = styled.a`
+  text-decoration: none;
+  display: inline-block;
+  &:not(:first-of-type) {
+    margin-left: ${({ theme }) => theme.sizing.scale400};
+  }
+  font-size: 1.7rem;
+  color: ${({ theme }) => theme.colors.white};
+  &:hover {
+    color: ${({ theme }) => theme.colors.gray['100']};
+  }
+`;

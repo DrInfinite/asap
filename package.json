@@ -1,0 +1,32 @@
+{
+   "name": "asap---aapoorthi-shrinkhala-prabhandhak",
+   "version": "1.0.0",
+   "description": "[![Build Status](https://www.travis-ci.com/alexcambose/proofchain.svg?branch=master)](https://www.travis-ci.com/alexcambose/proofchain)",
+   "main": "index.js",
+   "devDependencies": {
+      "@commitlint/cli": "^12.0.1",
+      "@commitlint/config-conventional": "^12.0.1",
+      "@commitlint/config-lerna-scopes": "^12.0.1",
+      "commitlint": "^12.0.1",
+      "ganache-cli": "^6.12.2",
+      "husky": "^5.1.3",
+      "lerna": "^4.0.0"
+   },
+   "scripts": {
+      "dev": "lerna run --parallel dev",
+      "prepare": "husky install",
+      "test": "cd library && npm run test",
+      "ganache": "ganache-cli --gasLimit 0x7A1200 --mnemonic \"stage analyst reform dune educate throw exile disagree pause search crouch finger\" --db ./.db"
+   },
+   "repository": {
+      "type": "git",
+      "url": "git+https://github.com/alexcambose/proofchain.git"
+   },
+   "keywords": [],
+   "author": "",
+   "license": "ISC",
+   "bugs": {
+      "url": "https://github.com/alexcambose/proofchain/issues"
+   },
+   "homepage": "https://github.com/alexcambose/proofchain#readme"
+}

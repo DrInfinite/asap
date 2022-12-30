@@ -1,0 +1,32 @@
+---
+sidebar_position: 1
+---
+
+# Intro
+
+ASAP leverages blockchain technology to facilitate efficient communication and data exchange between global supply chains, providing customers with proof of product provenance and ownership. It is a collection of smart contracts and Web3 based tools which are aiming to provide companies and customers with the required infrastructure to facilitate transparency across supply chains.
+
+The following documentation is intended for getting a deeper understanding on how ASAP works, both in terms of a technical point of view as well as from the point of view of its use in practice.
+
+## At a glance
+
+ASAP is a collection of blockchain based tools which make up an open platform that anyone can interact with.
+These include:
+
+**Smart Contracts**: At the core of ASAP are the smart contracts, written in Solidity, which live on the Ethereum blockchain. These make up an open platform that anyone can interact with.
+
+**ASAP Dashboard**: It offers a snapshot of the core features of the smart contracts based platform.
+
+**ASAP Web3 library**: A JS library which simplifies interacting with ASAP contracts, facilitating communication between existing Supply Chain Management software and distributed ledged technology.
+
+**ASAP Client App**: A mobile-first web application that provides end users with the ability to view the complete provenance history of each product.
+
+## Contributing
+
+Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
+
+Please make sure to update tests as appropriate.
+
+## License
+
+[MIT](https://choosealicense.com/licenses/mit/)

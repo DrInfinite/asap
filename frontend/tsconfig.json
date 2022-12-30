@@ -1,0 +1,40 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "target": "es2020",
+    "lib": ["dom", "dom.iterable", "esnext", "es2020"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": false,
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "paths": {
+      "@store/*": ["store/*"],
+      "@components/*": ["components/*"],
+      "@containers/*": ["containers/*"],
+      "@assets/*": ["assets/*"],
+      "@utils/*": ["utils/*"],
+      "@styles/*": ["styles/*"],
+      "@enums": ["enums.ts"],
+      "@constants": ["constants.ts"]
+    }
+  },
+  // "exclude": ["node_modules"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "pages/index.tsx",
+    "pages/_error.js",
+    "pages/_document.js"
+  ],
+  "typeRoots": ["../../node_modules/@types", "./@types"],
+  "exclude": []
+}

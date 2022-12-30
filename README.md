@@ -89,11 +89,11 @@ Supply chain entities and materials can be audited by third-party "certificate a
 
 ## Resources
 
-- [ASAP DEMO](https://demo.proofchain.alexcambose.ro/)
+<!-- - [ASAP DEMO](https://demo.proofchain.alexcambose.ro/) -->
 
-- [Presentation website](https://proofchain.alexcambose.ro/)
+<!-- - [Presentation website](https://proofchain.alexcambose.ro/) -->
 
-- [General documentation](https://docs.proofchain.alexcambose.ro/)
+<!-- - [General documentation](https://docs.proofchain.alexcambose.ro/) -->
 
 - [Frontend information](./frontend/)
 
@@ -103,7 +103,7 @@ Supply chain entities and materials can be audited by third-party "certificate a
 
 - [Library informtion](./library/)
 
-- [Library docs](https://library.proofchain.alexcambose.ro/)
+<!-- - [Library docs](https://library.proofchain.alexcambose.ro/) -->
 
 ## Contributing
 
